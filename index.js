@@ -1,9 +1,6 @@
-const express = require('express')
-const app =express()
+require ("dotenv").config()
 
-app.get('/',(req,res)=> {
-    res.send("Hello World!!")
-})
-app.listen(4000,() =>{
-    console.log("Backend en ejecución");
-})
+const Server = require('./server')
+const server = new Server()
+
+server.listen()
