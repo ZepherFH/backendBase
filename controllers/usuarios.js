@@ -68,9 +68,8 @@ const addUsers = async (req = request, res = response) =>{
         Edad,
         Genero,
         Contraseña,
-        Fecha_Nacimiento,
+        Fecha_Nacimiento = '1999-06-23',
         Activo
-
     } = req.body
     if (
         !Nombre ||
@@ -85,6 +84,11 @@ const addUsers = async (req = request, res = response) =>{
     try{ 
         conn = await pool.getConnection()
         //No exista el usuario antes de insertar
+        const [user] = await conn.query(`SELECT Usuario FROM usuarios WHERE Usuario = '${Usuario}'`)
+        if (user){
+            res.status(403).json({msg:`El usuario ${Usuario} ya se encuentra registrado`})
+            return
+        }
         const {affectedRows} = await conn.query(`INSERT INTO usuarios (
             Usuario,
             Nombre,
@@ -99,12 +103,12 @@ const addUsers = async (req = request, res = response) =>{
             '${Nombre}',
             '${Apellidos}',
             ${Edad},
-            '${Genero}',
+            '${Genero || ''}', 
             '${Contraseña}',
             '${Fecha_Nacimiento}',
             '${Activo}'
         )`, (error) =>{throw new Error(error)})
-        
+        //Genero ? Genero : Null
         if (affectedRows === 0){
             res.status(404).json({msg: `No se pudo agregar el registro del usuario ${Usuario}}`})
             return
