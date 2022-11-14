@@ -11,7 +11,7 @@ router.delete("/", deleteUsersbyID)
 //Tipo Post
 router.post("/", addUsers)
 router.post("/signIn", signIn)
-//Tipo Delete
+//Tipo Put
 router.put("/", updateUserByUsuario)
 router.put("/change", changePassword)
 

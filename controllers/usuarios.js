@@ -205,7 +205,7 @@ const signIn = async (req = request, res = response) =>{
     let conn;
     try {
         conn = await pool.getConnection()
-        const [user] = await conn.query(modeloUsuarios.querySignin, [Usuario])
+        const [user] = await conn.query(`SELECT Usuario, Contraseña, Activo FROM Usuarios WHERE Usuario = '${Usuario}'`)
 
         if (!user || user.Activo === 'N'){
             let code = !user  ? 1 : 2
@@ -214,7 +214,7 @@ const signIn = async (req = request, res = response) =>{
         }
         const accesoValido = bcryptjs.compareSync(Contraseña, user.Contraseña)
         if (!accesoValido){
-            res.status(403).json({msg: `El usuario o la contraseña son incorrectos`, errorCode: code})
+            res.status(403).json({msg: `El usuario o la contraseña son incorrectos`, errorCode: "3"})
             return
         }
         res.json({msg: `El usuario ${Usuario} ha iniciado sesión`})
@@ -269,4 +269,5 @@ const changePassword = async (req = request, res = response) => {
         if (conn) conn.end()//Termina la conexión 
     }
 }
+
 module.exports = {getUsers, getUsersByID, deleteUsersbyID, addUsers, updateUserByUsuario, signIn, changePassword}
