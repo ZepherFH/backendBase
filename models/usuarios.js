@@ -35,5 +35,21 @@ const modeloUsuarios = {
     querySignIn : `SELECT Usuario, Contraseña, Activo FROM Usuarios WHERE Usuario = ?`,
     queryUpdatePasword : `UPDATE usuarios SET Contraseña=? WHERE Usuario= ?`
 }
+const updateUsuario = (
+    Nombre,
+    Apellidos,
+    Edad,
+    Genero,
+    Fecha_Nacimiento,
+    Usuario
+) => {
+    return `UPDATE Usuarios SET
+                Nombre = '${Nombre}',
+                Apellidos = '${Apellidos}',
+                Edad = '${Edad}',
+                Genero = '${Genero}',
+                Fecha_Nacimiento = '${Fecha_Nacimiento}'
+            WHERE Usuario = '${Usuario}'`
+}
 
-module.exports = modeloUsuarios
+module.exports = {modeloUsuarios, updateUsuario}

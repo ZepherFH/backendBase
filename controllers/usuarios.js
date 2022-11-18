@@ -1,7 +1,7 @@
 const {request, response} = require("express");
 const pool=require("../db/connection");
 const bcryptjs=require("bcryptjs");
-const modeloUsuarios = require("../models/usuarios");
+const {modeloUsuarios, updateUsuario} = require("../models/usuarios");
 //Recibir datos de todos los usuarios
 const getUsers = async(req=request,res=response)=>{
     
@@ -153,14 +153,14 @@ const updateUserByUsuario = async (req = request, res = response) =>{
         if (!user){
             res.status(403).json({msg: `El usuario ${Usuario} no se encuentra registrado`})
         }
-        const {affectedRows} = await conn.query(modeloUsuarios.queryUpdateByUsuario,[
-            Nombre||user.Nombre,
-            Apellidos||user.Apellidos,
-            Edad||user.Edad,
-            Genero||user.Genero,
+        const {affectedRows} = await conn.query(updateUsuario(
+            Nombre,
+            Apellidos,
+            Edad,
+            Genero,
             Fecha_Nacimiento,
             Usuario
-        ],(error)=>{throw new error})
+        ),(error)=>{throw new error})
         if (affectedRows === 0) {
             res.status(404).json({msg:`No se pudo actualizar el registro del usuario ${Usuario}`})
             return
