@@ -1,6 +1,5 @@
 const {request, response} = require("express");
 const pool = require("../db/connection")
-const bcryptjs= require("bcryptjs")
 const modelsHonkai = require ("../models/honkai")
 //Obtener información de todas las valkiryas
 const getValkiryas = async (req = request, res = response) =>{
@@ -22,6 +21,7 @@ const getValkiryas = async (req = request, res = response) =>{
         }
     }
 }
+//Obtener datos de una Valkiryas por el ID
 const getValkiryasByID = async (req = request, res = response) =>{
     const {id} = req.params
     let conn;
@@ -42,6 +42,7 @@ const getValkiryasByID = async (req = request, res = response) =>{
         }
     }
 }
+//Desactivar una Valkiryas por su ID
 const deleteValksbyID = async (req = request, res = response) =>{
     const {id} = req.query
     let conn;
@@ -63,6 +64,7 @@ const deleteValksbyID = async (req = request, res = response) =>{
         }
     }
 }
+//Añadir una nuevo Valkiryas
 const addValks = async (req = request, res = response) =>{
     const {
         Nombre,
@@ -118,6 +120,7 @@ const addValks = async (req = request, res = response) =>{
         }
     }
 }
+//Actualizar información de las Valkiryas
 const updateValkByNombre = async (req = request, res = response) =>{
     const {
         Nombre,
